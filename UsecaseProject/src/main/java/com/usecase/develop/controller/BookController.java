@@ -27,12 +27,20 @@ public class BookController
     @Autowired
     BookService service;
  
-    @GetMapping
+    @GetMapping 
     public ResponseEntity<List<Book>> getAllBooks() {
         List<Book> list = service.getAllBooks();
         System.out.println(" getAllBooks : "+list  );  
         
         return new ResponseEntity<List<Book>>(list, new HttpHeaders(), HttpStatus.OK);
+    }
+    
+    @GetMapping("/{id}") 
+    public ResponseEntity<Book> getBookById(@PathVariable("id") Long id) throws BookNotFoundException {
+        Book book = service.getBookById(id);
+        System.out.println(" getBookById : "+book  );  
+        
+        return new ResponseEntity<Book>(book, new HttpHeaders(), HttpStatus.OK);
     }
 
     @PostMapping("/add")
@@ -45,7 +53,7 @@ public class BookController
     }
  
     
-    @DeleteMapping("/Books/{id}")
+    @DeleteMapping("/{id}")
     public HttpStatus deleteBookById(@PathVariable("id") Long id) 
                                                     throws BookNotFoundException {
         service.deleteBookById(id);
